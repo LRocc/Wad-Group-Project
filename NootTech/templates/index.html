@@ -1,0 +1,47 @@
+{% load staticfiles %}
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta content="Noot.Tech" property="og:site_name">
+        <meta name="twitter:site" content="@NootTech">
+        
+        {% if file %}
+        
+        <title>NootTech - {{ file.original_filename }}</title>
+        <meta name="twitter:title" content="{{ file.original_filename }}" />
+        <meta name="twitter:description" content="File uploaded by: {{ file.user.username }}">
+        <meta name="theme-color" content="{{ file.user.colour }}">
+
+            {% if file.file_image and not file.is_private %}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content="{{ url }}{{ file.file_content }}" />
+            {% elif file.file_video and not file.is_private %}
+                <meta name="twitter:card" content="player" />
+                <meta name="twitter:image" content="{{ url }}{{ file.file_thumbnail }}" />
+                <meta name="twitter:player" content="{{ url }}{{ file.file_content }}" />
+                <meta name="twitter:player:stream" content="{{ url }}{{ file.file_content }}" />
+                <meta name="twitter:player:stream:content_type" content="video/mp4" />
+            {% endif %}
+        
+        {% else %}
+
+        <title>NootTech</title>
+        <meta name="twitter:title" content="A place where uploading is made easy." />
+        <meta name="twitter:description" content="NootTech is a unique file storage service with the user in mind." property="og:description">
+        <meta name="theme-color" content="#00CCCC">
+        
+        {% endif %}
+
+    </head>
+    
+    <body>
+        <div id="app"></div>
+        <script src="{% static 'build.js' %}"></script>
+    </body>
+</html>
+
+
+
